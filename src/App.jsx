@@ -41,8 +41,8 @@ if (!sessionId) {
     try {
 
      const res = await api.post("/chat", {
-  session_id: sessionId,
-  question: finalMessage,
+  session_id: "123",
+  message: finalMessage,
 });
       console.log(res.data);
 
