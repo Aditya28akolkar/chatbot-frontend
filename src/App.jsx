@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "./api/axios";
 import { FaPaperPlane } from "react-icons/fa";
 
@@ -16,7 +16,26 @@ if (!sessionId) {
   const [messages, setMessages] = useState([]);
 
   const [loading, setLoading] = useState(false);
+useEffect(() => {
 
+  const timer = setTimeout(() => {
+
+    if (messages.length === 0) {
+
+      const welcomeMessage = {
+        role: "assistant",
+        content:
+          "Namaste! How may I assist you with GST or tax-related queries today?",
+      };
+
+      setMessages([welcomeMessage]);
+    }
+
+  }, 10000);
+
+  return () => clearTimeout(timer);
+
+}, [messages]);
   // ==================================================
   // SEND MESSAGE
   // ==================================================
@@ -41,7 +60,7 @@ if (!sessionId) {
     try {
 
      const res = await api.post("/chat", {
-  session_id: "123",
+  session_id: sessionId,
   message: finalMessage,
 });
       console.log(res.data);
@@ -53,20 +72,10 @@ if (!sessionId) {
   return;
 }
 
-      const botMessage = {
-
-        role: "assistant",
-
-        content: res.data?.answer || "No response received",
-
-       response_type: res.data?.response_type || "text", 
-
-        field: res.data?.field || null,
-         mandatory: res.data?.mandatory || false,
-
-  show_skip: res.data?.show_skip || false,
-      };
-
+    const botMessage = {
+      role: "assistant",
+      content: res.data.answer,
+    };
       setMessages((prev) => [...prev, botMessage]);
 
     } catch (error) {
