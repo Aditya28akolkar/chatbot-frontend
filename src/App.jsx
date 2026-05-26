@@ -18,24 +18,55 @@ if (!sessionId) {
   const [loading, setLoading] = useState(false);
 useEffect(() => {
 
+  if (messages.length > 0) return;
+
   const timer = setTimeout(() => {
 
-    if (messages.length === 0) {
+    setMessages((prev) => {
 
-      const welcomeMessage = {
-        role: "assistant",
-        content:
-          "Namaste! How may I assist you with GST or tax-related queries today?",
-      };
+      if (prev.length > 0) return prev;
 
-      setMessages([welcomeMessage]);
-    }
+      return [
+        {
+          role: "assistant",
+          content:
+            "Namaste! How may I assist you with GST or tax-related queries today?",
+        },
+      ];
+    });
 
   }, 10000);
 
   return () => clearTimeout(timer);
 
-}, [messages]);
+}, []);
+useEffect(() => {
+
+  const loadHistory = async () => {
+
+    try {
+
+      const res = await api.get(
+        `/history/${sessionId}`
+      );
+
+      if (
+        res.data &&
+        res.data.messages
+      ) {
+
+        setMessages(res.data.messages);
+      }
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+
+  loadHistory();
+
+}, []);
   // ==================================================
   // SEND MESSAGE
   // ==================================================
@@ -80,10 +111,20 @@ useEffect(() => {
 
     } catch (error) {
 
-      console.log(error);
+  console.log(error);
 
-    } finally {
+  const errorMessage = {
+    role: "assistant",
+    content:
+      "Server is waking up. Please try again in a moment.",
+  };
 
+  setMessages((prev) => [
+    ...prev,
+    errorMessage,
+  ]);
+
+} finally {
       setLoading(false);
 
     }
