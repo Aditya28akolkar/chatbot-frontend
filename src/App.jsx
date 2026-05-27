@@ -16,7 +16,10 @@ import {
 
 function App() {
 
-  const sessionId = useSession();
+  const {
+  userId,
+  sessionId,
+} = useSession();
 
   const {
     messages,
@@ -52,11 +55,11 @@ function App() {
     try {
 
       const data =
-        await sendChatMessage(
-          sessionId,
-          tempMessage
-        );
-
+       await sendChatMessage(
+  userId,
+  sessionId,
+  tempMessage
+);
       const botMessage = {
         role: "assistant",
         content: data.answer,

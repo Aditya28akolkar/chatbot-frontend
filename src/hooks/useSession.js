@@ -1,6 +1,46 @@
-const SESSION_DURATION = 24 * 60 * 60 * 1000;
+// ==========================================
+// CHAT CONFIG
+// ==========================================
+
+const chatConfig = {
+
+  temporary: true,
+
+  expiryHours: 24,
+};
+
+// ==========================================
+// USE SESSION
+// ==========================================
 
 export default function useSession() {
+
+  const {
+    temporary,
+    expiryHours,
+  } = chatConfig;
+
+  // ==========================================
+  // PERMANENT USER ID
+  // ==========================================
+
+  let userId = localStorage.getItem(
+    "user_id"
+  );
+
+  if (!userId) {
+
+    userId = crypto.randomUUID();
+
+    localStorage.setItem(
+      "user_id",
+      userId
+    );
+  }
+
+  // ==========================================
+  // SESSION ID
+  // ==========================================
 
   let sessionId = localStorage.getItem(
     "session_id"
@@ -11,14 +51,53 @@ export default function useSession() {
       "session_created_at"
     );
 
+  // ==========================================
+  // PERMANENT CHAT MODE
+  // ==========================================
+
+  if (!temporary) {
+
+    if (!sessionId) {
+
+      sessionId = crypto.randomUUID();
+
+      localStorage.setItem(
+        "session_id",
+        sessionId
+      );
+    }
+
+    return {
+      userId,
+      sessionId,
+    };
+  }
+
+  // ==========================================
+  // TEMPORARY CHAT MODE
+  // ==========================================
+
+  const SESSION_DURATION =
+
+    expiryHours *
+    60 *
+    60 *
+    1000;
+
   const now = Date.now();
 
-  if (
-    !sessionId ||
+  const isExpired =
+
     !sessionCreatedAt ||
+
     now - Number(sessionCreatedAt) >
-      SESSION_DURATION
-  ) {
+      SESSION_DURATION;
+
+  // ==========================================
+  // CREATE NEW SESSION
+  // ==========================================
+
+  if (!sessionId || isExpired) {
 
     localStorage.removeItem(
       "session_id"
@@ -41,5 +120,8 @@ export default function useSession() {
     );
   }
 
-  return sessionId;
+  return {
+    userId,
+    sessionId,
+  };
 }
