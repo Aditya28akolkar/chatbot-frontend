@@ -50,24 +50,45 @@ useEffect(() => {
         `/history/${sessionId}`
       );
 
+      // IF HISTORY EXISTS
       if (
         res.data &&
-        res.data.messages
+        res.data.messages &&
+        res.data.messages.length > 0
       ) {
 
         setMessages(res.data.messages);
+
+      } else {
+
+        // SHOW DEFAULT MESSAGE ONLY FOR NEW USER
+        setMessages([
+          {
+            role: "assistant",
+            content:
+              "Namaste! How may I assist you with GST or tax-related queries today?",
+          },
+        ]);
       }
 
     } catch (error) {
 
       console.log(error);
+
+      // FALLBACK MESSAGE
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            "Namaste! How may I assist you with GST or tax-related queries today?",
+        },
+      ]);
     }
   };
 
   loadHistory();
 
-}, []);
-  // ==================================================
+}, []);  // ==================================================
   // SEND MESSAGE
   // ==================================================
 
