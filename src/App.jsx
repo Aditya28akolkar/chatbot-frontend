@@ -1,19 +1,14 @@
 import { useState } from "react";
 
-import ChatHeader
-from "./components/ChatHeader";
+import ChatHeader from "./components/ChatHeader";
 
-import ChatInput
-from "./components/ChatInput";
+import ChatInput from "./components/ChatInput";
 
-import LoadingBubble
-from "./components/LoadingBubble";
+import LoadingBubble from "./components/LoadingBubble";
 
-import useSession
-from "./hooks/useSession";
+import useSession from "./hooks/useSession";
 
-import useChatHistory
-from "./hooks/useChatHistory";
+import useChatHistory from "./hooks/useChatHistory";
 
 import {
   sendChatMessage,
@@ -93,26 +88,110 @@ function App() {
 
   return (
 
-    <div>
+    <div
+      style={{
+        backgroundColor: "#F1F5F9",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+      }}
+    >
 
-      <ChatHeader />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "1000px",
+          height: "95vh",
+          backgroundColor: "white",
+          borderRadius: "24px",
+          border: "1px solid #E2E8F0",
+          boxShadow:
+            "0 10px 30px rgba(0,0,0,0.08)",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
 
-      {messages.map(
-        (msg, index) => (
+        <ChatHeader />
 
-          <div key={index}>
-            {msg.content}
-          </div>
-        )
-      )}
+        {/* CHAT AREA */}
 
-      {loading && <LoadingBubble />}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "24px 20px",
+            backgroundColor: "#F8FAFC",
+          }}
+        >
 
-      <ChatInput
-        message={message}
-        setMessage={setMessage}
-        sendMessage={sendMessage}
-      />
+          {messages.map(
+            (msg, index) => (
+
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent:
+                    msg.role === "user"
+                      ? "flex-end"
+                      : "flex-start",
+                  marginBottom: "20px",
+                }}
+              >
+
+                <div
+                  style={{
+                    maxWidth: "75%",
+                    padding: "14px 18px",
+                    borderRadius: "18px",
+
+                    backgroundColor:
+                      msg.role === "user"
+                        ? "#2563EB"
+                        : "white",
+
+                    color:
+                      msg.role === "user"
+                        ? "white"
+                        : "#0F172A",
+
+                    border:
+                      msg.role === "assistant"
+                        ? "1px solid #E2E8F0"
+                        : "none",
+
+                    boxShadow:
+                      "0 2px 8px rgba(0,0,0,0.05)",
+
+                    lineHeight: "1.6",
+
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+
+                  {msg.content}
+
+                </div>
+
+              </div>
+            )
+          )}
+
+          {loading && <LoadingBubble />}
+
+        </div>
+
+        <ChatInput
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
+
+      </div>
 
     </div>
   );

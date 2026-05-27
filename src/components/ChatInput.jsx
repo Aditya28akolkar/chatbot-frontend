@@ -45,11 +45,25 @@ export default function ChatInput({
             borderRadius: "14px",
             border:
               "1px solid #CBD5E1",
+            outline: "none",
+            fontSize: "16px",
+            backgroundColor:
+              "#F8FAFC",
           }}
         />
 
         <button
           onClick={sendMessage}
+          style={{
+            width: "55px",
+            border: "none",
+            borderRadius: "14px",
+            backgroundColor:
+              "#2563EB",
+            color: "white",
+            fontSize: "18px",
+            cursor: "pointer",
+          }}
         >
 
           <FaPaperPlane />
