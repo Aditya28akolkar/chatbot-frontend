@@ -2,13 +2,47 @@ import { useState, useEffect } from "react";
 import api from "./api/axios";
 import { FaPaperPlane } from "react-icons/fa";
 
-function App() {
+const SESSION_DURATION = 24 * 60 * 60 * 1000;
+
 let sessionId = localStorage.getItem("session_id");
 
-if (!sessionId) {
+let sessionCreatedAt = localStorage.getItem(
+  "session_created_at"
+);
+
+const now = Date.now();
+
+if (
+  !sessionId ||
+  !sessionCreatedAt ||
+  now - Number(sessionCreatedAt) > SESSION_DURATION
+) {
+
+  // EXPIRE OLD SESSION
+
+  localStorage.removeItem("session_id");
+  localStorage.removeItem("session_created_at");
+
+  // CREATE NEW SESSION
+
   sessionId = crypto.randomUUID();
-  localStorage.setItem("session_id", sessionId);
+
+  localStorage.setItem(
+    "session_id",
+    sessionId
+  );
+
+  localStorage.setItem(
+    "session_created_at",
+    now.toString()
+  );
 }
+
+
+
+
+
+function App() {
   const [message, setMessage] = useState("");
   const [onboardingInput, setOnboardingInput] =
   useState("");
@@ -42,54 +76,28 @@ useEffect(() => {
 }, []);
 useEffect(() => {
 
-  const loadHistory = async () => {
+  if (messages.length > 0) return;
 
-    try {
+  const timer = setTimeout(() => {
 
-      const res = await api.get(
-        `/history/${sessionId}`
-      );
+    setMessages((prev) => {
 
-      // IF HISTORY EXISTS
-      if (
-        res.data &&
-        res.data.messages &&
-        res.data.messages.length > 0
-      ) {
+      if (prev.length > 0) return prev;
 
-        setMessages(res.data.messages);
-
-      } else {
-
-        // SHOW DEFAULT MESSAGE ONLY FOR NEW USER
-        setMessages([
-          {
-            role: "assistant",
-            content:
-              "Namaste! How may I assist you with GST or tax-related queries today?",
-          },
-        ]);
-      }
-
-    } catch (error) {
-
-      console.log(error);
-
-      // FALLBACK MESSAGE
-      setMessages([
+      return [
         {
           role: "assistant",
           content:
             "Namaste! How may I assist you with GST or tax-related queries today?",
         },
-      ]);
-    }
-  };
+      ];
+    });
 
-  loadHistory();
+  }, 10000);
 
-}, []);  // ==================================================
-  // SEND MESSAGE
+  return () => clearTimeout(timer);
+
+}, []);  // SEND MESSAGE
   // ==================================================
 
   const sendMessage = async (customMessage = null) => {
