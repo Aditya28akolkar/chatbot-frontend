@@ -30,7 +30,9 @@ export default function useSession() {
 
   if (!userId) {
 
-    userId = crypto.randomUUID();
+    userId = Math.floor(
+      Math.random() * 1000000
+    ).toString();
 
     localStorage.setItem(
       "user_id",
@@ -93,19 +95,7 @@ export default function useSession() {
     now - Number(sessionCreatedAt) >
       SESSION_DURATION;
 
-  // ==========================================
-  // CREATE NEW SESSION
-  // ==========================================
-
   if (!sessionId || isExpired) {
-
-    localStorage.removeItem(
-      "session_id"
-    );
-
-    localStorage.removeItem(
-      "session_created_at"
-    );
 
     sessionId = crypto.randomUUID();
 

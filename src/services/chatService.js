@@ -14,11 +14,6 @@ export const fetchHistory = async (
       `/history/${sessionId}`
     );
 
-    console.log(
-      "History response:",
-      res.data
-    );
-
     return res.data;
 
   } catch (error) {
@@ -40,7 +35,6 @@ export const fetchHistory = async (
 
 export const sendChatMessage =
   async (
-    userId,
     sessionId,
     message
   ) => {
@@ -48,15 +42,12 @@ export const sendChatMessage =
     try {
 
       const res = await api.post(
-        "/chat",
-        {
-          user_id: userId,
-
-          session_id: sessionId,
-
-          message,
-        }
-      );
+  "/chat",
+  {
+    session_id: sessionId,
+    message,
+  }
+);
 
       return res.data;
 
@@ -69,5 +60,4 @@ export const sendChatMessage =
 
       throw error;
     }
-  };
-      
+};
