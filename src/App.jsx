@@ -56,7 +56,7 @@ function App() {
 
       const data =
        await sendChatMessage(
-  userId,
+  
   sessionId,
   tempMessage
 );
