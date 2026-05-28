@@ -63,9 +63,16 @@ export const sendChatMessage = async (
     );
 
     console.log(
-      "Backend response:",
-      error.response?.data
-    );
+  "FULL BACKEND RESPONSE:"
+);
+
+console.log(
+  JSON.stringify(
+    error.response?.data,
+    null,
+    2
+  )
+);
 
     throw error;
   }
