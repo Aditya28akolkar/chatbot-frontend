@@ -33,7 +33,7 @@ export default function useChatHistory(
             {
               role: "assistant",
               content:
-                "Namaste! How may I assist you with GST or tax-related queries today?",
+                "How may I assist you with GST or tax-related queries today?",
             },
           ]);
         }
@@ -46,7 +46,7 @@ export default function useChatHistory(
           {
             role: "assistant",
             content:
-              "Namaste! How may I assist you with GST or tax-related queries today?",
+              "How may I assist you with GST or tax-related queries today?",
           },
         ]);
       }
