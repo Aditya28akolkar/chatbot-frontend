@@ -25,9 +25,30 @@ export default function useChatHistory(
           data.messages.length > 0
         ) {
 
-          setMessages(data.messages);
+          setMessages(
+            data.messages
+          );
 
         } else {
+
+          setTimeout(() => {
+
+            setMessages([
+              {
+                role: "assistant",
+                content:
+                  "How may I assist you with GST or tax-related queries today?",
+              },
+            ]);
+
+          }, 10000);
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        setTimeout(() => {
 
           setMessages([
             {
@@ -36,19 +57,8 @@ export default function useChatHistory(
                 "How may I assist you with GST or tax-related queries today?",
             },
           ]);
-        }
 
-      } catch (error) {
-
-        console.log(error);
-
-        setMessages([
-          {
-            role: "assistant",
-            content:
-              "How may I assist you with GST or tax-related queries today?",
-          },
-        ]);
+        }, 10000);
       }
     };
 
@@ -57,7 +67,9 @@ export default function useChatHistory(
   }, [sessionId]);
 
   return {
+
     messages,
+
     setMessages,
   };
 }
