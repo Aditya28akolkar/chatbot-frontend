@@ -18,16 +18,30 @@ export default function useChatHistory(
 
     const loadHistory = async () => {
 
+      let welcomeDelay = 10;
+
       try {
+
         const timerConfig =
           await fetchTimerConfig();
 
-        const welcomeDelay =
+        welcomeDelay =
           timerConfig.welcome_delay_seconds;
 
+        console.log(
+          "Welcome Delay:",
+          welcomeDelay
+        );
+
         const data =
-          await fetchHistory(sessionId);
-        
+          await fetchHistory(
+            sessionId
+          );
+
+        console.log(
+          "History Data:",
+          data
+        );
 
         if (
           data &&
@@ -35,11 +49,19 @@ export default function useChatHistory(
           data.messages.length > 0
         ) {
 
+          console.log(
+            "Loading history from DB"
+          );
+
           setMessages(
             data.messages
           );
 
         } else {
+
+          console.log(
+            "Starting welcome timer"
+          );
 
           setTimeout(() => {
 
@@ -56,7 +78,10 @@ export default function useChatHistory(
 
       } catch (error) {
 
-        console.log(error);
+        console.log(
+          "History Error:",
+          error
+        );
 
         setTimeout(() => {
 
