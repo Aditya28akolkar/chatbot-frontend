@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { fetchHistory }
 from "../services/chatService";
 
+import {
+  fetchTimerConfig
+} from "../services/configService";
+
 export default function useChatHistory(
   sessionId
 ) {
@@ -15,9 +19,15 @@ export default function useChatHistory(
     const loadHistory = async () => {
 
       try {
+        const timerConfig =
+          await fetchTimerConfig();
+
+        const welcomeDelay =
+          timerConfig.welcome_delay_seconds;
 
         const data =
           await fetchHistory(sessionId);
+        
 
         if (
           data &&
@@ -41,7 +51,7 @@ export default function useChatHistory(
               },
             ]);
 
-          }, 10000);
+          }, welcomeDelay * 1000);
         }
 
       } catch (error) {
@@ -58,7 +68,7 @@ export default function useChatHistory(
             },
           ]);
 
-        }, 10000);
+        }, welcomeDelay * 1000);
       }
     };
 
