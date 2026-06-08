@@ -48,7 +48,7 @@ export default function useChatHistory(
         );
 
         welcomeDelay =
-          timerConfig?.welcome_delay_seconds;
+          timerConfig?.welcome_delay;
 
         console.log(
           "Welcome Delay:",

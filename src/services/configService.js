@@ -4,7 +4,7 @@ export const fetchTimerConfig =
   async () => {
 
     const res =
-      await api.get("/timers");
+      await api.get("/timer-config");
 
     return res.data;
 };
