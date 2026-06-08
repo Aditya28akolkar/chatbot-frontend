@@ -16,21 +16,47 @@ export default function useChatHistory(
 
   useEffect(() => {
 
+    console.log(
+      "================================="
+    );
+
+    console.log(
+      "useChatHistory started"
+    );
+
+    console.log(
+      "Session ID:",
+      sessionId
+    );
+
     const loadHistory = async () => {
 
       let welcomeDelay = 10;
 
       try {
 
+        console.log(
+          "Fetching timer config..."
+        );
+
         const timerConfig =
           await fetchTimerConfig();
 
+        console.log(
+          "Timer Config:",
+          timerConfig
+        );
+
         welcomeDelay =
-          timerConfig.welcome_delay_seconds;
+          timerConfig?.welcome_delay_seconds;
 
         console.log(
           "Welcome Delay:",
           welcomeDelay
+        );
+
+        console.log(
+          "Fetching history..."
         );
 
         const data =
@@ -41,6 +67,11 @@ export default function useChatHistory(
         console.log(
           "History Data:",
           data
+        );
+
+        console.log(
+          "Messages Length:",
+          data?.messages?.length
         );
 
         if (
@@ -60,10 +91,28 @@ export default function useChatHistory(
         } else {
 
           console.log(
+            "No history found"
+          );
+
+          console.log(
             "Starting welcome timer"
           );
 
+          console.log(
+            "Timer Start:",
+            Date.now()
+          );
+
           setTimeout(() => {
+
+            console.log(
+              "Timer Fired:",
+              Date.now()
+            );
+
+            console.log(
+              "Showing welcome message"
+            );
 
             setMessages([
               {
@@ -79,11 +128,21 @@ export default function useChatHistory(
       } catch (error) {
 
         console.log(
-          "History Error:",
-          error
+          "ERROR OCCURRED:"
+        );
+
+        console.log(error);
+
+        console.log(
+          "Fallback Delay:",
+          welcomeDelay
         );
 
         setTimeout(() => {
+
+          console.log(
+            "Fallback Timer Fired"
+          );
 
           setMessages([
             {
