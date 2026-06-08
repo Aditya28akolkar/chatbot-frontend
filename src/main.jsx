@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 
 import App from './App.jsx';
-import Admin from './pages/Admin.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,11 +22,7 @@ createRoot(document.getElementById('root')).render(
           element={<App />}
         />
 
-        <Route
-          path="/admin"
-          element={<Admin />}
-        />
-
+        
       </Routes>
     </BrowserRouter>
   </StrictMode>
