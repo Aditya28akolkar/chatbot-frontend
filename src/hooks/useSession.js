@@ -1,51 +1,55 @@
-// ==========================================
-// CHAT CONFIG
-// ==========================================
 import { useEffect, useState } from "react";
 
 import {
   fetchTimerConfig
 } from "../services/configService";
 
-
-useEffect(() => {
-
-  const loadConfig = async () => {
-
-    try {
-
-      const config =
-        await fetchTimerConfig();
-
-      console.log(
-        "Timer Config:",
-        config
-      );
-
-      setExpiryHours(
-        config.session_expiry
-      );
-
-    } catch (error) {
-
-      console.log(error);
-    }
-  };
-
-  loadConfig();
-
-}, []);
-const [expiryHours, setExpiryHours] =
-  useState(24);
-const TEMPORARY = true;
 // ==========================================
 // USE SESSION
 // ==========================================
 
 export default function useSession() {
 
-  const temporary =
-    TEMPORARY;
+  const [expiryHours, setExpiryHours] =
+    useState(24);
+
+  const temporary = true;
+
+  // ==========================================
+  // LOAD TIMER CONFIG
+  // ==========================================
+
+  useEffect(() => {
+
+    const loadConfig = async () => {
+
+      try {
+
+        const config =
+          await fetchTimerConfig();
+
+        console.log(
+          "Timer Config:",
+          config
+        );
+
+        setExpiryHours(
+          config.session_expiry
+        );
+
+      } catch (error) {
+
+        console.log(
+          "Timer config error:",
+          error
+        );
+      }
+    };
+
+    loadConfig();
+
+  }, []);
+
   // ==========================================
   // PERMANENT USER ID
   // ==========================================
@@ -105,6 +109,11 @@ export default function useSession() {
   // TEMPORARY CHAT MODE
   // ==========================================
 
+  console.log(
+    "Expiry Hours:",
+    expiryHours
+  );
+
   const SESSION_DURATION =
 
     expiryHours *
@@ -118,10 +127,15 @@ export default function useSession() {
 
     !sessionCreatedAt ||
 
-    now - Number(sessionCreatedAt) >
+    now -
+      Number(sessionCreatedAt) >
       SESSION_DURATION;
 
   if (!sessionId || isExpired) {
+
+    console.log(
+      "Session Expired"
+    );
 
     sessionId = crypto.randomUUID();
 
