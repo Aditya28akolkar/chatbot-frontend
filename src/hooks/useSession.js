@@ -1,25 +1,51 @@
 // ==========================================
 // CHAT CONFIG
 // ==========================================
+import { useEffect, useState } from "react";
 
-const chatConfig = {
+import {
+  fetchTimerConfig
+} from "../services/configService";
 
-  temporary: true,
 
-  expiryHours: 24,
-};
+useEffect(() => {
 
+  const loadConfig = async () => {
+
+    try {
+
+      const config =
+        await fetchTimerConfig();
+
+      console.log(
+        "Timer Config:",
+        config
+      );
+
+      setExpiryHours(
+        config.session_expiry
+      );
+
+    } catch (error) {
+
+      console.log(error);
+    }
+  };
+
+  loadConfig();
+
+}, []);
+const [expiryHours, setExpiryHours] =
+  useState(24);
+const TEMPORARY = true;
 // ==========================================
 // USE SESSION
 // ==========================================
 
 export default function useSession() {
 
-  const {
-    temporary,
-    expiryHours,
-  } = chatConfig;
-
+  const temporary =
+    TEMPORARY;
   // ==========================================
   // PERMANENT USER ID
   // ==========================================
