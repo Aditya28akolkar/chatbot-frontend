@@ -4,8 +4,7 @@ export default function ChatInput({
   message,
   setMessage,
   sendMessage,
-  skipQuestion,
-  showSkip
+  
 }) {
   return (
     <div
@@ -23,7 +22,7 @@ export default function ChatInput({
       >
         <input
           type="text"
-          placeholder="Aditya asking..."
+          placeholder="ask anything..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -42,23 +41,7 @@ export default function ChatInput({
           }}
         />
 
-        {/* Skip Button */}
- {true && (
-  <button
-    onClick={skipQuestion}
-    style={{
-      padding: "0 20px",
-      border: "none",
-      borderRadius: "14px",
-      backgroundColor: "#64748B",
-      color: "white",
-      cursor: "pointer",
-      fontWeight: "600",
-    }}
-  >
-    Skip
-  </button>
-)}
+ 
         {/* Send Button */}
         <button
           onClick={sendMessage}
