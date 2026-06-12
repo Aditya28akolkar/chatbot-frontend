@@ -112,6 +112,7 @@ setShowSkip(
       sessionId,
       "SKIP"
     );
+    console.log("API RESPONSE:", data);
     setShowSkip(
   data.response_type === "onboarding" &&
   data.mandatory === false

@@ -23,7 +23,7 @@ export default function ChatInput({
       >
         <input
           type="text"
-          placeholder="Ask something..."
+          placeholder="Aditya asking..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -43,7 +43,7 @@ export default function ChatInput({
         />
 
         {/* Skip Button */}
- {showSkip && (
+ {true && (
   <button
     onClick={skipQuestion}
     style={{
