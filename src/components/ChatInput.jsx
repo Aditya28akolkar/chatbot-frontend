@@ -4,7 +4,8 @@ export default function ChatInput({
   message,
   setMessage,
   sendMessage,
-  
+  showSkip,
+  skipQuestion,
 }) {
   return (
     <div

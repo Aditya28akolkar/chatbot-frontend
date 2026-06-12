@@ -62,6 +62,16 @@ function App() {
   tempMessage
 );
 
+console.log("showSkip condition:", {
+  response_type: data.response_type,
+  mandatory: data.mandatory,
+  result:
+    data.response_type === "onboarding" &&
+    data.mandatory === false
+});
+
+
+
 setShowSkip(
   data.response_type === "onboarding" &&
   data.mandatory === false
