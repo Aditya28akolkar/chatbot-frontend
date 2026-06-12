@@ -232,6 +232,20 @@ setShowSkip(
 
                   {msg.content}
 
+{msg.role === "assistant" &&
+ msg.content.includes("type 'skip'") && (
+  <button
+    onClick={skipQuestion}
+    style={{
+      marginTop: "10px",
+      padding: "8px 16px",
+      borderRadius: "8px",
+      cursor: "pointer"
+    }}
+  >
+    Skip
+  </button>
+)}
                 </div>
 
               </div>
