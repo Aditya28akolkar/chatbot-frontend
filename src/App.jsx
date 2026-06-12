@@ -28,6 +28,7 @@ function App() {
 
   const [message, setMessage] =
     useState("");
+    const [showSkip, setShowSkip] = useState(false);
 
   const [loading, setLoading] =
     useState(false);
@@ -60,6 +61,11 @@ function App() {
   sessionId,
   tempMessage
 );
+
+setShowSkip(
+  data.response_type === "onboarding" &&
+  data.mandatory === false
+);
       const botMessage = {
         role: "assistant",
         content: data.answer,
@@ -88,6 +94,53 @@ function App() {
       setLoading(false);
     }
   };
+  const skipQuestion = async () => {
+  const userMessage = {
+    role: "user",
+    content: "Skipped",
+  };
+
+  setMessages((prev) => [
+    ...prev,
+    userMessage,
+  ]);
+
+  setLoading(true);
+
+  try {
+    const data = await sendChatMessage(
+      sessionId,
+      "SKIP"
+    );
+    setShowSkip(
+  data.response_type === "onboarding" &&
+  data.mandatory === false
+);
+
+    const botMessage = {
+      role: "assistant",
+      content: data.answer,
+    };
+
+    setMessages((prev) => [
+      ...prev,
+      botMessage,
+    ]);
+  } catch (error) {
+    console.log(error);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        content:
+          "Server is reconnecting. Please try again.",
+      },
+    ]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
 
@@ -192,6 +245,8 @@ function App() {
           message={message}
           setMessage={setMessage}
           sendMessage={sendMessage}
+          skipQuestion={skipQuestion}
+          showSkip={showSkip}
         />
 
       </div>
