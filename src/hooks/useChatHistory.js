@@ -103,28 +103,23 @@ export default function useChatHistory(
             Date.now()
           );
 
-          setTimeout(() => {
+  setTimeout(() => {
 
-            console.log(
-              "Timer Fired:",
-              Date.now()
-            );
+  setMessages((prevMessages) => {
 
-            console.log(
-              "Showing welcome message"
-            );
+    if (prevMessages.length > 0) {
+      return prevMessages;
+    }
 
-            setMessages([
-              {
-                role: "assistant",
-                content:
-                  "How may I help you?",
-              },
-            ]);
+    return [
+      {
+        role: "assistant",
+        content: "How may I help you?",
+      },
+    ];
+  });
 
-          }, welcomeDelay * 1000);
-        }
-
+}, welcomeDelay * 1000);}
       } catch (error) {
 
         console.log(
@@ -138,21 +133,24 @@ export default function useChatHistory(
           welcomeDelay
         );
 
-        setTimeout(() => {
+       setTimeout(() => {
 
-          console.log(
-            "Fallback Timer Fired"
-          );
+  setMessages((prevMessages) => {
 
-          setMessages([
-            {
-              role: "assistant",
-              content:
-                "How may I assist you with GST or tax-related queries today?",
-            },
-          ]);
+    if (prevMessages.length > 0) {
+      return prevMessages;
+    }
 
-        }, welcomeDelay * 1000);
+    return [
+      {
+        role: "assistant",
+        content:
+          "How may I assist you with GST or tax-related queries today?",
+      },
+    ];
+  });
+
+}, welcomeDelay * 1000);
       }
     };
 
