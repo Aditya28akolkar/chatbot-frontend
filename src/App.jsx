@@ -152,7 +152,7 @@ setShowSkip(
     setLoading(false);
   }
 };
-
+console.log("showSkip:", showSkip);
   return (
 
     <div
