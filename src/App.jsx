@@ -72,11 +72,9 @@ console.log("showSkip condition:", {
 
 
 
-setShowSkip(
-  data.response_type === "onboarding" &&
-  data.mandatory === false
-);
-      const botMessage = {
+setShowSkip(true);
+
+const botMessage = {
         role: "assistant",
         content: data.answer,
       };

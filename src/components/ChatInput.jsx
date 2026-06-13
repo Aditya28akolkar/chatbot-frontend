@@ -1,5 +1,8 @@
 import { FaPaperPlane } from "react-icons/fa";
 
+
+
+
 export default function ChatInput({
   message,
   setMessage,
@@ -42,6 +45,20 @@ export default function ChatInput({
           }}
         />
 
+
+{showSkip && (
+  <button
+    onClick={skipQuestion}
+    style={{
+      padding: "10px 16px",
+      borderRadius: "14px",
+      border: "1px solid #CBD5E1",
+      cursor: "pointer",
+    }}
+  >
+    Skip
+  </button>
+)}
  
         {/* Send Button */}
         <button
