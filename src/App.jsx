@@ -62,6 +62,7 @@ function App() {
   tempMessage
 );
 
+
 console.log("showSkip condition:", {
   response_type: data.response_type,
   mandatory: data.mandatory,
@@ -72,13 +73,19 @@ console.log("showSkip condition:", {
 
 
 
-setShowSkip(true);
+setShowSkip(
+  data.response_type === "onboarding" &&
+  ["name", "email", "phone", "company"].includes(data.field) &&
+  data.mandatory === false
+);
 
 const botMessage = {
-        role: "assistant",
-        content: data.answer,
-      };
-
+  role: "assistant",
+  content: data.answer,
+  field: data.field,
+  mandatory: data.mandatory,
+  response_type: data.response_type,
+};
       setMessages((prev) => [
         ...prev,
         botMessage,
@@ -103,6 +110,9 @@ const botMessage = {
     }
   };
   const skipQuestion = async () => {
+
+
+
   const userMessage = {
     role: "user",
     content: "Skipped",
@@ -120,17 +130,20 @@ const botMessage = {
       sessionId,
       "SKIP"
     );
-    console.log("API RESPONSE:", data);
-    setShowSkip(
+    
+   setShowSkip(
   data.response_type === "onboarding" &&
+  ["name", "email", "phone", "company"].includes(data.field) &&
   data.mandatory === false
 );
 
     const botMessage = {
-      role: "assistant",
-      content: data.answer,
-    };
-
+  role: "assistant",
+  content: data.answer,
+  field: data.field,
+  mandatory: data.mandatory,
+  response_type: data.response_type,
+};
     setMessages((prev) => [
       ...prev,
       botMessage,
@@ -207,6 +220,7 @@ console.log("showSkip:", showSkip);
                   marginBottom: "20px",
                 }}
               >
+  
 
                 <div
                   style={{
@@ -238,13 +252,16 @@ console.log("showSkip:", showSkip);
                   }}
                 >
 
-                  {msg.content}
+       {msg.content}
+
 
 {msg.role === "assistant" &&
- msg.content.includes("type 'skip'") && (
+ msg.response_type === "onboarding" &&
+ msg.mandatory === false && (
   <button
     onClick={skipQuestion}
     style={{
+      display: "block",
       marginTop: "10px",
       padding: "8px 16px",
       borderRadius: "8px",
@@ -253,8 +270,10 @@ console.log("showSkip:", showSkip);
   >
     Skip
   </button>
-)}
-                </div>
+)}       
+
+
+ </div>
 
               </div>
             )
