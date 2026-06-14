@@ -61,7 +61,7 @@ function App() {
   sessionId,
   tempMessage
 );
-
+console.log("BACKEND RESPONSE =", data);
 
 console.log("showSkip condition:", {
   response_type: data.response_type,
@@ -130,7 +130,7 @@ const botMessage = {
       sessionId,
       "SKIP"
     );
-    
+    console.log("SKIP RESPONSE =", data);
    setShowSkip(
   data.response_type === "onboarding" &&
   ["name", "email", "phone", "company"].includes(data.field) &&
@@ -251,6 +251,17 @@ console.log("showSkip:", showSkip);
                     whiteSpace: "pre-wrap",
                   }}
                 >
+
+{console.log(
+  "MSG DEBUG:",
+  {
+    field: msg.field,
+    mandatory: msg.mandatory,
+    response_type: msg.response_type,
+    content: msg.content
+  }
+)}
+
 
        {msg.content}
 
