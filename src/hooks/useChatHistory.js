@@ -145,7 +145,7 @@ export default function useChatHistory(
       {
         role: "assistant",
         content:
-          "How may I assist you with GST or tax-related queries today?",
+          "How may I assist you with Lekha related queries today?",
       },
     ];
   });
