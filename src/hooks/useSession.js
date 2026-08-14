@@ -33,10 +33,9 @@ export default function useSession() {
           config
         );
 
-        setExpiryHours(
-          config.session_expiry
-        );
-
+      setExpiryHours(
+  config.chat_expiry_hours
+);
       } catch (error) {
 
         console.log(
